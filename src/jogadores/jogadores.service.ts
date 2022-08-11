@@ -7,17 +7,19 @@ import { Jogador } from './interfaces/jogador.interface';
 @Injectable()
 export class JogadoresService {
   private jogadores: Jogador[] = [];
-
   private readonly logger = new Logger(JogadoresService.name);
 
   async criarAtualizarJogador(criarJogadorDto: CriarJogadorDto): Promise<void> {
-    this.logger.log(`Cria jogador Dto: ${criarJogadorDto}`);
+    this.logger.log(`Cria jogador Dto: ${criarJogadorDto.nome}`);
     await this.criar(criarJogadorDto);
+  }
+
+  async consultarTodosJogadores(): Promise<Jogador[]> {
+    return await this.jogadores;
   }
 
   private async criar(criarJogadorDto: CriarJogadorDto): Promise<void> {
     const { nome, email, telefoneCelular } = criarJogadorDto;
-
     const jogador: Jogador = {
       _id: uuid(),
       email,
@@ -27,7 +29,6 @@ export class JogadoresService {
       posicaoRanking: 1,
       urlFotoJogador: `www.foto.jogador`,
     };
-
     this.jogadores.push(jogador);
   }
 }
