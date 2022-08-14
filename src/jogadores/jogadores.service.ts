@@ -1,11 +1,11 @@
 import {
   BadRequestException,
   Injectable,
-  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AtualizarJogadorDto } from './dtos/atualizar-jogador.dto';
 // import { v4 as uuid } from 'uuid';
 
 import { CriarJogadorDto } from './dtos/criar-jogador.dto';
@@ -13,8 +13,6 @@ import { Jogador } from './interfaces/jogador.interface';
 
 @Injectable()
 export class JogadoresService {
-  private readonly logger = new Logger(JogadoresService.name);
-
   constructor(
     @InjectModel('Jogador') private readonly jogadorModel: Model<Jogador>,
   ) {}
@@ -33,7 +31,7 @@ export class JogadoresService {
 
   async atualizarJogador(
     _id: string,
-    criarJogadorDto: CriarJogadorDto,
+    atualizarJogadorDto: AtualizarJogadorDto,
   ): Promise<void> {
     const jogadorEncontrado = await this.jogadorModel.findOne({ _id }).exec();
 
@@ -42,7 +40,7 @@ export class JogadoresService {
     }
     await this.jogadorModel.findOneAndUpdate(
       { _id },
-      { $set: criarJogadorDto },
+      { $set: atualizarJogadorDto },
     );
   }
 
@@ -58,20 +56,12 @@ export class JogadoresService {
     return await this.jogadorModel.find().exec();
   }
 
-  async deletarJogador(email: string): Promise<any> {
-    return await this.jogadorModel.deleteOne({ email }).exec();
-  }
+  async deletarJogador(id: string): Promise<any> {
+    const jogadorEncontrado = await this.jogadorModel.findById(id).exec();
 
-  private async criar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
-    const jogadorCriado = new this.jogadorModel(criarJogadorDto);
-
-    return await jogadorCriado.save();
-  }
-
-  private async atualizar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
-    return await this.jogadorModel.findOneAndUpdate(
-      { email: criarJogadorDto.email },
-      { $set: criarJogadorDto },
-    );
+    if (!jogadorEncontrado) {
+      throw new NotFoundException(`Jogador não foi encontrado`);
+    }
+    return await this.jogadorModel.deleteOne({ id }).exec();
   }
 }
