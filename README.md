@@ -4,7 +4,7 @@
     <p align="center">
 
 
-## Installation
+## Instalação
 
 ```bash
 $ yarn
@@ -26,10 +26,9 @@ $ yarn start:prod
 
 
 
-## Stay in touch
 
 - Queiroz M. Alintana
 
-## License
+## Licença
 
 Nest is [MIT licensed](LICENSE).
