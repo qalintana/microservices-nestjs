@@ -1,8 +1,8 @@
 {
   "name": "api-smartraking",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "API de SMARTRAKING",
+  "author": "Queiroz Santana",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
