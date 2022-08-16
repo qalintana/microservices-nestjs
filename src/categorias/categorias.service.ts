@@ -19,6 +19,8 @@ export class CategoriasService {
       categoria,
     });
 
+    console.log(criarCategoriaDto);
+
     if (categoriaEncontrada) {
       throw new BadRequestException(
         `A categoria ${categoria} já está registrada`,
